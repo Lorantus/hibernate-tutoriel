@@ -1,9 +1,7 @@
 package com.laurent.infra;
 
 import com.laurent.model.Book;
-import com.laurent.model.Pen;
 import com.laurent.model.Price;
-import com.laurent.model.Product;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,13 +18,13 @@ import static org.assertj.core.api.Assertions.tuple;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest(showSql = false)
-public class ProductRepositoryIT {
+public class BookRepositoryIT {
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private ProductRepository productRepository;
+    private BookRepository bookRepository;
 
     private Price price;
 
@@ -38,41 +36,26 @@ public class ProductRepositoryIT {
     }
 
     @Test
-    public void testFindByName() {
-        entityManager.persist(new Product("Bratislava", price));
-
-        List<Product> customers = productRepository.findByName("Bratislava");
-
-        assertThat(customers).hasSize(1)
-                .extracting(Product::getName,
-                        prod -> prod.getPrice().getPrice(),
-                        prod -> prod.getPrice().getReduce(),
-                        prod -> prod.getPrice().getTaux(),
-                        prod -> prod.getPrice().getTotal())
-                .containsOnly(tuple("Bratislava",
-                        new BigDecimal("100"),
-                        new BigDecimal("50"),
-                        new BigDecimal("10"),
-                        new BigDecimal("55")));
-    }
-
-    @Test
-    public void testFindBook() {
+    public void testFindBookByName() {
         Book book = new Book();
         book.setAuthor("Laurent");
         book.setName("Bratislava");
         book.setPrice(price);
         entityManager.persist(book);
 
-        List<Product> products = productRepository.findByName("Bratislava");
+        List<Book> books = bookRepository.findByName("Bratislava");
 
-        assertThat(products).hasSize(1)
-                .extracting(Product::getName,
+        assertThat(books).hasSize(1)
+                .extracting(
+                        Book::getAuthor,
+                        Book::getName,
                         prod -> prod.getPrice().getPrice(),
                         prod -> prod.getPrice().getReduce(),
                         prod -> prod.getPrice().getTaux(),
                         prod -> prod.getPrice().getTotal())
-                .containsOnly(tuple("Bratislava",
+                .containsOnly(tuple(
+                        "Laurent",
+                        "Bratislava",
                         new BigDecimal("100"),
                         new BigDecimal("50"),
                         new BigDecimal("10"),
@@ -80,22 +63,26 @@ public class ProductRepositoryIT {
     }
 
     @Test
-    public void testFindPen() {
-        Pen pen = new Pen();
-        pen.setColor("Red");
-        pen.setName("Bratislava");
-        pen.setPrice(price);
-        entityManager.persist(pen);
+    public void testFindBookByAuthor() {
+        Book book = new Book();
+        book.setAuthor("Laurent");
+        book.setName("Bratislava");
+        book.setPrice(price);
+        entityManager.persist(book);
 
-        List<Product> products = productRepository.findByName("Bratislava");
+        List<Book> books = bookRepository.findByAuthor("Laurent");
 
-        assertThat(products).hasSize(1)
-                .extracting(Product::getName,
+        assertThat(books).hasSize(1)
+                .extracting(
+                        Book::getAuthor,
+                        Book::getName,
                         prod -> prod.getPrice().getPrice(),
                         prod -> prod.getPrice().getReduce(),
                         prod -> prod.getPrice().getTaux(),
                         prod -> prod.getPrice().getTotal())
-                .containsOnly(tuple("Bratislava",
+                .containsOnly(tuple(
+                        "Laurent",
+                        "Bratislava",
                         new BigDecimal("100"),
                         new BigDecimal("50"),
                         new BigDecimal("10"),

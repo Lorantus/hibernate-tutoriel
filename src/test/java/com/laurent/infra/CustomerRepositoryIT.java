@@ -30,18 +30,18 @@ public class CustomerRepositoryIT {
 
     @Test
     public void testFindByName() {
-        entityManager.persist(new Customer("4320", "Bratislava"));
+        entityManager.persist(new Customer("John", "doe"));
 
-        List<Customer> customers = customerRepository.findByLastName("Bratislava");
+        List<Customer> customers = customerRepository.findByLastName("doe");
 
         assertThat(customers).hasSize(1)
-                .extracting(Customer::getFirstName, Customer::getLastName)
-                .containsOnly(tuple("4320", "Bratislava"));
+                .extracting(Customer::getName, Customer::getLastName)
+                .containsOnly(tuple("John", "doe"));
     }
 
     @Test
     public void testGetOrders() {
-        Customer customer = new Customer("Bratislava", "City");
+        Customer customer = new Customer("John", "doe");
         UUID customerId = entityManager.persist(customer).getId();
 
         Product product = new Product("Bratislava", new BigDecimal("100"));

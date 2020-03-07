@@ -5,17 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-@Entity
+@Entity(name="products")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="product_type",
+        discriminatorType = DiscriminatorType.STRING)
 public class Product {
     @Id
     @GeneratedValue
@@ -33,5 +33,13 @@ public class Product {
 
     public Product(String name, BigDecimal price) {
         this(name, new Price(price));
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
     }
 }

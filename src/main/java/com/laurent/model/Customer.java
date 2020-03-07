@@ -12,23 +12,22 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
 
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Customer {
+public class Customer extends Person {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    private String firstName;
     private String lastName;
 
     @OneToMany(mappedBy = "customer")
     private Collection<Order> orders = new HashSet<>();
 
     public Customer(String firstName, String lastName) {
-        this.firstName = firstName;
+        setName(firstName);
         this.lastName = lastName;
     }
 }

@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Arrays.asList;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest(showSql = false)
@@ -28,7 +27,7 @@ public class OrderRepositoryIT {
 
     @Test
     public void testFindByName() {
-        Customer customer = new Customer("Bratislava", "City");
+        Customer customer = new Customer("John", "doe");
         customer = entityManager.persist(customer);
 
         Product product = new Product("Bratislava", new BigDecimal("100"));
@@ -45,7 +44,8 @@ public class OrderRepositoryIT {
                 .extracting(Order::getCustomer).isEqualTo(customer);
 
         assertThat(orders)
-                .extracting(Order::getProducts)
-                .isEqualTo(asList(product));
+                .flatExtracting(Order::getProducts).hasSize(1)
+                .first()
+                .isEqualTo(product);
     }
 }
