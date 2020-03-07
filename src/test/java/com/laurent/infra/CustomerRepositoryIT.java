@@ -14,10 +14,9 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.util.Sets.newHashSet;
+import static org.mockito.internal.util.collections.Sets.newSet;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest(showSql = false)
@@ -32,7 +31,7 @@ public class CustomerRepositoryIT {
     @Test
     public void testFindByName() {
         Customer customer = new Customer("John", "doe");
-        customer.setVisibility(new VisibilityByLocale(newHashSet(asList(Locale.FRANCE, Locale.UK))));
+        customer.setVisibility(new VisibilityByLocale(newSet(Locale.FRANCE, Locale.UK)));
 
         entityManager.persist(customer);
 
@@ -46,7 +45,7 @@ public class CustomerRepositoryIT {
     @Test
     public void testKeepVisiblityByLocale() {
         Customer customer = new Customer("John", "doe");
-        customer.setVisibility(new VisibilityByLocale(newHashSet(asList(Locale.FRANCE, Locale.UK))));
+        customer.setVisibility(new VisibilityByLocale(newSet(Locale.FRANCE, Locale.UK)));
 
         entityManager.persist(customer);
 
@@ -62,7 +61,7 @@ public class CustomerRepositoryIT {
     @Test
     public void testKeepVisiblityByName() {
         Customer customer = new Customer("John", "doe");
-        customer.setVisibility(new VisibilityByName(newHashSet(asList("John", "Jane"))));
+        customer.setVisibility(new VisibilityByName(newSet("John", "Jane")));
 
         entityManager.persist(customer);
 
