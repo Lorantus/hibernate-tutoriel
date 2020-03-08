@@ -10,11 +10,11 @@ import java.util.Set;
 import static java.util.Collections.unmodifiableSet;
 
 @Getter
-class VisibilityByLocaleCommand implements VisibiltyCommand {
+public class VisibilityByLocaleCommand implements VisibiltyCommand {
     private final VisibilityByLocaleService visibilityByLocaleService;
     private final Set<Locale> locales;
 
-    VisibilityByLocaleCommand(VisibilityByLocaleService visibilityByLocaleService, Set<Locale> locales) {
+    public VisibilityByLocaleCommand(VisibilityByLocaleService visibilityByLocaleService, Set<Locale> locales) {
         this.visibilityByLocaleService = visibilityByLocaleService;
         this.locales = unmodifiableSet(locales);
     }

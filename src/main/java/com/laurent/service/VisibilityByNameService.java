@@ -17,7 +17,7 @@ public class VisibilityByNameService {
         this.customerRepository = customerRepository;
     }
 
-    public void associe(Customer customer, Set<String> names) {
+    public void associer(Customer customer, Set<String> names) {
         customer.setVisibility(new VisibilityByName(names));
         customerRepository.save(customer);
     }

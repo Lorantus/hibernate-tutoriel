@@ -18,7 +18,7 @@ public class VisibilityByLocaleService {
         this.customerRepository = customerRepository;
     }
 
-    public void associe(Customer customer, Set<Locale> locales) {
+    public void associer(Customer customer, Set<Locale> locales) {
         customer.setVisibility(new VisibilityByLocale(locales));
         customerRepository.save(customer);
     }
