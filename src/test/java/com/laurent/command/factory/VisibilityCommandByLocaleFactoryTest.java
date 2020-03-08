@@ -1,9 +1,11 @@
 package com.laurent.command.factory;
 
 import com.laurent.VisibiltityTestConfig;
-import com.laurent.command.VisibilityByLocaleCommand;
+import com.laurent.command.VisibilityByLocaleCommandService.VisibilityByLocaleCommand;
 import com.laurent.command.VisibiltyCommand;
+import com.laurent.model.Customer;
 import com.laurent.service.VisibilityByLocaleService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,17 @@ public class VisibilityCommandByLocaleFactoryTest {
     @Autowired
     private VisibilityCommandByLocaleFactory visibilityCommandByLocaleFactory;
 
+    private Customer customer;
+
+    @Before
+    public void setUp() {
+        customer = new Customer("john", "doe");
+    }
+
     @Test
     public void doitRetournerUneCommandePourLocale() {
         // WHEN
-        VisibiltyCommand visibilityCommand = visibilityCommandByLocaleFactory.createVisibilityService(newSet("fr", "en"));
+        VisibiltyCommand visibilityCommand = visibilityCommandByLocaleFactory.createVisiblityCommand(customer, newSet("fr", "en"));
 
         // THEN
         assertThat(visibilityCommand)

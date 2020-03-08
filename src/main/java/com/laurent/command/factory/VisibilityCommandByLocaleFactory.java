@@ -1,9 +1,9 @@
 package com.laurent.command.factory;
 
-import com.laurent.command.VisibilityByLocaleCommand;
-import com.laurent.command.VisibilityType;
+import com.laurent.command.VisibilityByLocaleCommandService;
 import com.laurent.command.VisibiltyCommand;
-import com.laurent.service.VisibilityByLocaleService;
+import com.laurent.model.Customer;
+import com.laurent.model.VisibilityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +14,11 @@ import static java.util.stream.Collectors.toSet;
 
 @Service
 class VisibilityCommandByLocaleFactory implements VisibilityCommandFactory {
-    private final VisibilityByLocaleService visibilityByLocaleService;
+    private final VisibilityByLocaleCommandService visibilityByLocaleCommandService;
 
     @Autowired
-    public VisibilityCommandByLocaleFactory(VisibilityByLocaleService visibilityByLocaleService) {
-        this.visibilityByLocaleService = visibilityByLocaleService;
+    public VisibilityCommandByLocaleFactory(VisibilityByLocaleCommandService visibilityByLocaleCommandService) {
+        this.visibilityByLocaleCommandService = visibilityByLocaleCommandService;
     }
 
     @Override
@@ -27,10 +27,10 @@ class VisibilityCommandByLocaleFactory implements VisibilityCommandFactory {
     }
 
     @Override
-    public VisibiltyCommand createVisibilityService(Set<String> associations) {
+    public VisibiltyCommand createVisiblityCommand(Customer customer, Set<String> associations) {
         Set<Locale> locales = associations.stream()
                 .map(Locale::new)
                 .collect(toSet());
-        return new VisibilityByLocaleCommand(visibilityByLocaleService, locales);
+        return visibilityByLocaleCommandService.create(customer, locales);
     }
 }

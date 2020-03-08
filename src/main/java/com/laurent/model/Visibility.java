@@ -1,6 +1,5 @@
 package com.laurent.model;
 
-import com.laurent.command.VisibilityType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,20 +10,18 @@ import java.util.UUID;
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="VISIBILITY_TYPE",
-        discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "VISIBILITY_TYPE", discriminatorType = DiscriminatorType.STRING)
 public abstract class Visibility {
     @Id
-    @GeneratedValue
+    @Column(name = "CUSTOMER_ID")
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id",
-            referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "customer_id_fk"))
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
 
-    public abstract boolean isVisible(Customer customer);
+    public abstract boolean isVisible();
 
     public abstract VisibilityType getVisibilityType();
 }

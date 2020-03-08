@@ -1,7 +1,8 @@
 package com.laurent.model;
 
-import com.laurent.command.VisibilityType;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 import static java.util.Collections.unmodifiableSet;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @DiscriminatorValue("NAME")
@@ -20,14 +22,14 @@ public class VisibilityByName extends Visibility {
     public VisibilityByName(Set<String> names) {
         this.names = unmodifiableSet(names);
     }
+
     @Override
     public VisibilityType getVisibilityType() {
         return VisibilityType.NAME;
     }
 
     @Override
-    public boolean isVisible(Customer customer) {
-        return names.contains(customer.getName());
+    public boolean isVisible() {
+        return names.contains(getCustomer().getName());
     }
-
 }

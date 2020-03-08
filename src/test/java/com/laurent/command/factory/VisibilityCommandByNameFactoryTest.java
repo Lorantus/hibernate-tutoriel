@@ -1,9 +1,11 @@
 package com.laurent.command.factory;
 
 import com.laurent.VisibiltityTestConfig;
-import com.laurent.command.VisibilityByNameCommand;
+import com.laurent.command.VisibilityByNameCommandService.VisibilityByNameCommand;
 import com.laurent.command.VisibiltyCommand;
+import com.laurent.model.Customer;
 import com.laurent.service.VisibilityByNameService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,17 @@ public class VisibilityCommandByNameFactoryTest {
     @Autowired
     private VisibilityCommandByNameFactory visibilityCommandByNameFactory;
 
+    private Customer customer;
+
+    @Before
+    public void setUp() {
+        customer = new Customer("john", "doe");
+    }
+
     @Test
     public void doitRetournerUneCommandePourName() {
         // WHEN
-        VisibiltyCommand visibilityCommand = visibilityCommandByNameFactory.createVisibilityService(newSet("John", "Jane"));
+        VisibiltyCommand visibilityCommand = visibilityCommandByNameFactory.createVisiblityCommand(customer, newSet("John", "Jane"));
 
         // THEN
         assertThat(visibilityCommand)

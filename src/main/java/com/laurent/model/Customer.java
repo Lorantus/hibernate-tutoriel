@@ -23,7 +23,7 @@ public class Customer extends Person {
     private String lastName;
     private Locale locale = Locale.FRANCE;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "customer", fetch = FetchType.EAGER, orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "VISIBILITY_ID")
     private Visibility visibility;
 
@@ -37,6 +37,8 @@ public class Customer extends Person {
 
     public void setVisibility(Visibility visibility) {
         this.visibility = visibility;
-        visibility.setCustomer(this);
+        if(visibility != null) {
+            visibility.setCustomer(this);
+        }
     }
 }

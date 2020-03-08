@@ -1,4 +1,4 @@
-package com.laurent.command;
+package com.laurent.model;
 
 public enum VisibilityType {
     LOCALE,

@@ -1,7 +1,8 @@
 package com.laurent.model;
 
-import com.laurent.command.VisibilityType;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 import static java.util.Collections.unmodifiableSet;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @DiscriminatorValue("LOCALE")
@@ -28,7 +30,7 @@ public class VisibilityByLocale extends Visibility {
     }
 
     @Override
-    public boolean isVisible(Customer customer) {
-        return locales.contains(customer.getLocale());
+    public boolean isVisible() {
+        return locales.contains(getCustomer().getLocale());
     }
 }

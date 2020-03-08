@@ -1,12 +1,14 @@
 package com.laurent.command.factory;
 
 import com.laurent.VisibiltityTestConfig;
-import com.laurent.command.VisibilityByLocaleCommand;
-import com.laurent.command.VisibilityByNameCommand;
-import com.laurent.command.VisibilityType;
+import com.laurent.command.VisibilityByLocaleCommandService;
+import com.laurent.command.VisibilityByNameCommandService;
 import com.laurent.command.VisibiltyCommand;
+import com.laurent.model.Customer;
+import com.laurent.model.VisibilityType;
 import com.laurent.service.VisibilityByLocaleService;
 import com.laurent.service.VisibilityByNameService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,29 +33,36 @@ public class VisibilityCommandServiceFactoryTest {
     @Autowired
     private VisibilityCommandServiceFactory visibilityFactoryService;
 
+    private Customer customer;
+
+    @Before
+    public void setUp() {
+        customer = new Customer("john", "doe");
+    }
+
     @Test
     public void doitRetournerUneCommandePourLocale() {
         // WHEN
-        VisibiltyCommand visibilityCommand = visibilityFactoryService.createVisibilityCommand(VisibilityType.LOCALE, newSet("fr", "en"));
+        VisibiltyCommand visibilityCommand = visibilityFactoryService.createVisibilityCommand(customer, VisibilityType.LOCALE, newSet("fr", "en"));
 
         // THEN
         assertThat(visibilityCommand)
-                .isInstanceOf(VisibilityByLocaleCommand.class);
+                .isInstanceOf(VisibilityByLocaleCommandService.VisibilityByLocaleCommand.class);
 
-        assertThat(((VisibilityByLocaleCommand)visibilityCommand).getLocales())
+        assertThat(((VisibilityByLocaleCommandService.VisibilityByLocaleCommand)visibilityCommand).getLocales())
                 .containsOnly(Locale.FRENCH, Locale.ENGLISH);
     }
 
     @Test
     public void doitRetournerUneCommandePourName() {
         // WHEN
-        VisibiltyCommand visibilityCommand = visibilityFactoryService.createVisibilityCommand(VisibilityType.NAME, newSet("John", "Jane"));
+        VisibiltyCommand visibilityCommand = visibilityFactoryService.createVisibilityCommand(customer, VisibilityType.NAME, newSet("John", "Jane"));
 
         // THEN
         assertThat(visibilityCommand)
-                .isInstanceOf(VisibilityByNameCommand.class);
+                .isInstanceOf(VisibilityByNameCommandService.VisibilityByNameCommand.class);
 
-        assertThat(((VisibilityByNameCommand)visibilityCommand).getNames())
+        assertThat(((VisibilityByNameCommandService.VisibilityByNameCommand)visibilityCommand).getNames())
                 .containsOnly("John", "Jane");
     }
 }

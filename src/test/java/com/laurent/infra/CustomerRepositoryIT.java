@@ -32,7 +32,6 @@ public class CustomerRepositoryIT {
     public void testFindByName() {
         Customer customer = new Customer("John", "doe");
         customer.setVisibility(new VisibilityByLocale(newSet(Locale.FRANCE, Locale.UK)));
-
         entityManager.persist(customer);
 
         List<Customer> customers = customerRepository.findByLastName("doe");
@@ -46,7 +45,6 @@ public class CustomerRepositoryIT {
     public void testKeepVisiblityByLocale() {
         Customer customer = new Customer("John", "doe");
         customer.setVisibility(new VisibilityByLocale(newSet(Locale.FRANCE, Locale.UK)));
-
         entityManager.persist(customer);
 
         List<Customer> customers = customerRepository.findByLastName("doe");
@@ -62,7 +60,6 @@ public class CustomerRepositoryIT {
     public void testKeepVisiblityByName() {
         Customer customer = new Customer("John", "doe");
         customer.setVisibility(new VisibilityByName(newSet("John", "Jane")));
-
         entityManager.persist(customer);
 
         List<Customer> customers = customerRepository.findByLastName("doe");

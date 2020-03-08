@@ -1,7 +1,8 @@
 package com.laurent.command.factory;
 
-import com.laurent.command.VisibilityType;
 import com.laurent.command.VisibiltyCommand;
+import com.laurent.model.Customer;
+import com.laurent.model.VisibilityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,6 @@ import static java.util.stream.Collectors.toMap;
 
 @Component
 public class VisibilityCommandServiceFactory {
-
     private final Map<VisibilityType, VisibilityCommandFactory> visibilityCommandServiceByType;
 
     @Autowired
@@ -23,8 +23,8 @@ public class VisibilityCommandServiceFactory {
             .collect(toMap(VisibilityCommandFactory::getVisibilityType, Function.identity()));
     }
 
-    public VisibiltyCommand createVisibilityCommand(VisibilityType visibilityType, Set<String> associations) {
+    public VisibiltyCommand createVisibilityCommand(Customer customer, VisibilityType visibilityType, Set<String> associations) {
         return visibilityCommandServiceByType.get(visibilityType)
-                .createVisibilityService(associations);
+                .createVisiblityCommand(customer, associations);
     }
 }

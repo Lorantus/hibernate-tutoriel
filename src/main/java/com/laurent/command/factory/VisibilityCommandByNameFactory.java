@@ -1,9 +1,9 @@
 package com.laurent.command.factory;
 
-import com.laurent.command.VisibilityByNameCommand;
-import com.laurent.command.VisibilityType;
+import com.laurent.command.VisibilityByNameCommandService;
 import com.laurent.command.VisibiltyCommand;
-import com.laurent.service.VisibilityByNameService;
+import com.laurent.model.Customer;
+import com.laurent.model.VisibilityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +11,11 @@ import java.util.Set;
 
 @Service
 class VisibilityCommandByNameFactory implements VisibilityCommandFactory {
-    private final VisibilityByNameService visibilityByNameService;
+    private final VisibilityByNameCommandService visibilityByNameCommandService;
 
     @Autowired
-    public VisibilityCommandByNameFactory(VisibilityByNameService visibilityByNameService) {
-        this.visibilityByNameService = visibilityByNameService;
+    public VisibilityCommandByNameFactory(VisibilityByNameCommandService visibilityByNameCommandService) {
+        this.visibilityByNameCommandService = visibilityByNameCommandService;
     }
 
     @Override
@@ -24,7 +24,7 @@ class VisibilityCommandByNameFactory implements VisibilityCommandFactory {
     }
 
     @Override
-    public VisibiltyCommand createVisibilityService(Set<String> associations) {
-        return new VisibilityByNameCommand(visibilityByNameService, associations);
+    public VisibiltyCommand createVisiblityCommand(Customer customer, Set<String> associations) {
+        return visibilityByNameCommandService.create(customer, associations);
     }
 }
