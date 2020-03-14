@@ -1,6 +1,5 @@
 package com.laurent.model;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +11,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 @Entity
 public class Customer extends Person {
