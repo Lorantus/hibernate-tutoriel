@@ -2,17 +2,17 @@ package com.laurent.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 public class Customer extends Person {
 
@@ -21,6 +21,11 @@ public class Customer extends Person {
     private UUID id;
 
     private String lastName;
+    private Locale locale = Locale.FRANCE;
+
+    @OneToOne(mappedBy = "customer", fetch = FetchType.EAGER, orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "VISIBILITY_ID")
+    private Visibility visibility;
 
     @OneToMany(mappedBy = "customer")
     private Collection<Order> orders = new HashSet<>();
@@ -28,5 +33,12 @@ public class Customer extends Person {
     public Customer(String firstName, String lastName) {
         setName(firstName);
         this.lastName = lastName;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
+        if(visibility != null) {
+            visibility.setCustomer(this);
+        }
     }
 }
