@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.internal.util.collections.Sets.newSet;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest(showSql = true)
+@DataJpaTest(showSql = false)
 @Import(VisibiltityTestConfig.class)
 public class VisibilityServiceIT {
 
@@ -62,5 +62,20 @@ public class VisibilityServiceIT {
         assertThat(customerRepository.findById(customer.getId())).get()
                 .extracting(Customer::getVisibility)
                 .isInstanceOf(VisibilityByNone.class);
+    }
+
+    @Test
+    public void doitComparerLaVisibiliteCustomer() {
+        // GIVEN
+        Customer customer = new Customer("John", "doe");
+        customer.setLocale(Locale.FRANCE);
+        customer.setVisibility(new VisibilityByLocale(newSet(Locale.FRANCE, Locale.UK)));
+        customerRepository.save(customer);
+
+        // WHEN
+        boolean visible = visibilityService.isVisible(customer);
+
+        // THEN
+        assertThat(visible).isTrue();
     }
 }

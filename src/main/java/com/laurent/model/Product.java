@@ -14,8 +14,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="product_type",
-        discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name="product_type", discriminatorType = DiscriminatorType.STRING)
 public class Product {
     @Id
     @GeneratedValue
