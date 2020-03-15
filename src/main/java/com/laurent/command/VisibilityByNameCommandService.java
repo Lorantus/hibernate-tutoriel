@@ -1,7 +1,8 @@
 package com.laurent.command;
 
 import com.laurent.model.Customer;
-import com.laurent.service.VisibilityByNameService;
+import com.laurent.model.VisibilityByName;
+import com.laurent.service.VisibilityService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,33 +13,33 @@ import static java.util.Collections.unmodifiableSet;
 
 @Service
 public class VisibilityByNameCommandService {
-    private final VisibilityByNameService visibilityByNameService;
+    private final VisibilityService visibilityService;
 
     @Autowired
-    public VisibilityByNameCommandService(VisibilityByNameService visibilityByNameService) {
-        this.visibilityByNameService = visibilityByNameService;
+    public VisibilityByNameCommandService(VisibilityService visibilityService) {
+        this.visibilityService = visibilityService;
     }
 
     public VisibiltyCommand create(Customer customer, Set<String> names) {
-        return new VisibilityByNameCommand(visibilityByNameService, customer, names);
+        return new VisibilityByNameCommand(visibilityService, customer, names);
     }
 
     @Getter
     public static class VisibilityByNameCommand implements VisibiltyCommand {
-        private final VisibilityByNameService visibilityByNameService;
+        private final VisibilityService visibilityService;
 
         private final Customer customer;
         private final Set<String> names;
 
-        public VisibilityByNameCommand(VisibilityByNameService visibilityByNameService, Customer customer, Set<String> names) {
-            this.visibilityByNameService = visibilityByNameService;
+        public VisibilityByNameCommand(VisibilityService visibilityService, Customer customer, Set<String> names) {
+            this.visibilityService = visibilityService;
             this.customer = customer;
             this.names = unmodifiableSet(names);
         }
 
         @Override
         public void execute() {
-            visibilityByNameService.associer(customer, names);
+            visibilityService.updateVisibility(customer, new VisibilityByName(names));
         }
     }
 }

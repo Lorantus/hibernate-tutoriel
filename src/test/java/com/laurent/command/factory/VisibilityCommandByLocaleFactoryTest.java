@@ -4,7 +4,7 @@ import com.laurent.VisibiltityTestConfig;
 import com.laurent.command.VisibilityByLocaleCommandService.VisibilityByLocaleCommand;
 import com.laurent.command.VisibiltyCommand;
 import com.laurent.model.Customer;
-import com.laurent.service.VisibilityByLocaleService;
+import com.laurent.service.VisibilityService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +22,7 @@ import static org.mockito.internal.util.collections.Sets.newSet;
 @Import(VisibiltityTestConfig.class)
 public class VisibilityCommandByLocaleFactoryTest {
     @MockBean
-    private VisibilityByLocaleService visibilityByLocaleService;
+    private VisibilityService visibilityService;
 
     @Autowired
     private VisibilityCommandByLocaleFactory visibilityCommandByLocaleFactory;
@@ -43,8 +43,8 @@ public class VisibilityCommandByLocaleFactoryTest {
         assertThat(visibilityCommand)
                 .isInstanceOf(VisibilityByLocaleCommand.class);
 
-        assertThat(((VisibilityByLocaleCommand)visibilityCommand).getVisibilityByLocaleService())
-                .isEqualTo(visibilityByLocaleService);
+        assertThat(((VisibilityByLocaleCommand)visibilityCommand).getVisibilityService())
+                .isEqualTo(visibilityService);
         assertThat(((VisibilityByLocaleCommand)visibilityCommand).getLocales())
                 .containsOnly(Locale.FRENCH, Locale.ENGLISH);
     }

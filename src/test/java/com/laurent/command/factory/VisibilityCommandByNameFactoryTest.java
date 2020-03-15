@@ -4,7 +4,7 @@ import com.laurent.VisibiltityTestConfig;
 import com.laurent.command.VisibilityByNameCommandService.VisibilityByNameCommand;
 import com.laurent.command.VisibiltyCommand;
 import com.laurent.model.Customer;
-import com.laurent.service.VisibilityByNameService;
+import com.laurent.service.VisibilityService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,7 @@ import static org.mockito.internal.util.collections.Sets.newSet;
 @Import(VisibiltityTestConfig.class)
 public class VisibilityCommandByNameFactoryTest {
     @MockBean
-    private VisibilityByNameService visibilityByNameService;
+    private VisibilityService visibilityService;
 
     @Autowired
     private VisibilityCommandByNameFactory visibilityCommandByNameFactory;
@@ -41,8 +41,8 @@ public class VisibilityCommandByNameFactoryTest {
         assertThat(visibilityCommand)
                 .isInstanceOf(VisibilityByNameCommand.class);
 
-        assertThat(((VisibilityByNameCommand)visibilityCommand).getVisibilityByNameService())
-                .isEqualTo(visibilityByNameService);
+        assertThat(((VisibilityByNameCommand)visibilityCommand).getVisibilityService())
+                .isEqualTo(visibilityService);
         assertThat(((VisibilityByNameCommand)visibilityCommand).getNames())
                 .containsOnly("John", "Jane");
     }

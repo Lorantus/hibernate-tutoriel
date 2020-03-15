@@ -21,13 +21,13 @@ import static org.mockito.internal.util.collections.Sets.newSet;
 @RunWith(SpringRunner.class)
 @DataJpaTest(showSql = true)
 @Import(VisibiltityTestConfig.class)
-public class CustomerServiceIT {
+public class VisibilityServiceIT {
 
     @Autowired
     private CustomerRepository customerRepository;
 
     @Autowired
-    private CustomerService customerService;
+    private VisibilityService visibilityService;
 
     @Test
     public void doitMettreAJourLaVisibiliteCustomer() {
@@ -37,7 +37,7 @@ public class CustomerServiceIT {
         customerRepository.save(customer);
 
         // WHEN
-        customerService.updateVisibility(customer, new VisibilityByName(newSet("john")));
+        visibilityService.updateVisibility(customer, new VisibilityByName(newSet("john")));
 
         // THEN
         assertThat(customerRepository.findById(customer.getId())).get()

@@ -8,20 +8,21 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 
 @Service
-public class CustomerService {
+public class VisibilityService {
     private final EntityManager entityManager;
 
     @Autowired
-    public CustomerService(EntityManager entityManager) {
+    public VisibilityService(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     public void updateVisibility(Customer customer, Visibility visibility) {
         Visibility customerVisibility = customer.getVisibility();
-        customer.setVisibility(null);
-        entityManager.remove(customerVisibility);
-        entityManager.flush();
-
+        if(customerVisibility != null) {
+            customer.setVisibility(null);
+            entityManager.remove(customerVisibility);
+            entityManager.flush();
+        }
         customer.setVisibility(visibility);
     }
 }
