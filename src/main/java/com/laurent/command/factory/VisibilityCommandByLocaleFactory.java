@@ -27,8 +27,11 @@ class VisibilityCommandByLocaleFactory implements VisibilityCommandFactory {
     }
 
     @Override
-    public VisibiltyCommand createVisiblityCommand(Customer customer, Set<String> associations) {
-        Set<Locale> locales = associations.stream()
+    public VisibiltyCommand createVisiblityCommand(Customer customer, Set<String> visibilities) {
+        if(visibilities == null || visibilities.isEmpty()) {
+            throw new IllegalArgumentException("Empty visibilities is forbidden");
+        }
+        Set<Locale> locales = visibilities.stream()
                 .map(Locale::new)
                 .collect(toSet());
         return visibilityByLocaleCommandService.create(customer, locales);

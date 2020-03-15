@@ -24,7 +24,10 @@ class VisibilityCommandByNameFactory implements VisibilityCommandFactory {
     }
 
     @Override
-    public VisibiltyCommand createVisiblityCommand(Customer customer, Set<String> associations) {
-        return visibilityByNameCommandService.create(customer, associations);
+    public VisibiltyCommand createVisiblityCommand(Customer customer, Set<String> visibilities) {
+        if(visibilities == null || visibilities.isEmpty()) {
+            throw new IllegalArgumentException("Empty visibilities is forbidden");
+        }
+        return visibilityByNameCommandService.create(customer, visibilities);
     }
 }

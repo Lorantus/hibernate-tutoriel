@@ -12,6 +12,7 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "VISIBILITY_TYPE", discriminatorType = DiscriminatorType.STRING)
 public abstract class Visibility {
+
     @Id
     @Column(name = "CUSTOMER_ID")
     private UUID id;

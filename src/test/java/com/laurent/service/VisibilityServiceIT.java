@@ -5,6 +5,7 @@ import com.laurent.infra.CustomerRepository;
 import com.laurent.model.Customer;
 import com.laurent.model.VisibilityByLocale;
 import com.laurent.model.VisibilityByName;
+import com.laurent.model.VisibilityByNone;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,21 @@ public class VisibilityServiceIT {
                 .isInstanceOf(VisibilityByName.class)
                 .extracting(visibility -> new ArrayList<>(((VisibilityByName)visibility).getNames())).asList()
                 .containsExactly("john");
+    }
+
+    @Test
+    public void doitMettreAJourLaVisibiliteCustomerANone() {
+        // GIVEN
+        Customer customer = new Customer("John", "doe");
+        customer.setVisibility(new VisibilityByLocale(newSet(Locale.FRANCE, Locale.UK)));
+        customerRepository.save(customer);
+
+        // WHEN
+        visibilityService.updateVisibility(customer, new VisibilityByNone());
+
+        // THEN
+        assertThat(customerRepository.findById(customer.getId())).get()
+                .extracting(Customer::getVisibility)
+                .isInstanceOf(VisibilityByNone.class);
     }
 }

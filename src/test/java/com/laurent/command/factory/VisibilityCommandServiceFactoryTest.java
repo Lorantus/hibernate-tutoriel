@@ -3,6 +3,7 @@ package com.laurent.command.factory;
 import com.laurent.VisibiltityTestConfig;
 import com.laurent.command.VisibilityByLocaleCommandService.VisibilityByLocaleCommand;
 import com.laurent.command.VisibilityByNameCommandService.VisibilityByNameCommand;
+import com.laurent.command.VisibilityByNoneCommandService.VisibilityByNoneCommand;
 import com.laurent.command.VisibiltyCommand;
 import com.laurent.model.Customer;
 import com.laurent.model.VisibilityType;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Locale;
 
+import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.internal.util.collections.Sets.newSet;
 
@@ -56,5 +58,15 @@ public class VisibilityCommandServiceFactoryTest {
 
         assertThat(((VisibilityByNameCommand)visibilityCommand).getNames())
                 .containsOnly("John", "Jane");
+    }
+
+    @Test
+    public void doitRetournerUneCommandePourNone() {
+        // WHEN
+        VisibiltyCommand visibilityCommand = visibilityFactoryService.createVisibilityCommand(customer, VisibilityType.NONE, emptySet());
+
+        // THEN
+        assertThat(visibilityCommand)
+                .isInstanceOf(VisibilityByNoneCommand.class);
     }
 }
